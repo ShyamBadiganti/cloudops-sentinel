@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudOps Sentinel | Dashboard</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <span class="logo-icon">CS</span>
+                <span>CloudOps Sentinel</span>
+            </div>
+
+            <nav>
+
+                <a href="/" class="nav-item active">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a href="/aws/dashboard" class="nav-item">
+                    <span>☁</span>
+                    AWS Infrastructure
+                </a>
+
+                <a href="/aws/security" class="nav-item">
+                    <span>🔒</span>
+                    Security Scanner
+                </a>
+
+                <a href="/aws/dashboard" class="nav-item">
+                    <span>◉</span>
+                    CloudWatch
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span>⚙</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    System Online
+                </div>
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome to your AWS cloud security center.</p>
+                </div>
+
+                <div class="topbar-actions">
+
+                    <span class="region">
+                        AWS Region:
+                        <strong>ap-south-1</strong>
+                    </span>
+
+                    <button class="refresh-btn"
+                            onclick="location.reload()">
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- OVERVIEW CARDS -->
+            <section class="overview">
+
+                <!-- AWS RESOURCES -->
+                <div class="card overview-card">
+
+                    <div class="card-icon">
+                        ☁
+                    </div>
+
+                    <div>
+                        <p>AWS Resources</p>
+
+                        <h2>
+                            {{ aws_resources }}
+                        </h2>
+
+                        <span>
+                            Security resources scanned
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- SECURITY ISSUES -->
+                <div class="card overview-card">
+
+                    <div class="card-icon">
+                        🔒
+                    </div>
+
+                    <div>
+                        <p>Security Issues</p>
+
+                        <h2>
+                            {{ security_issues }}
+                        </h2>
+
+                        <span>
+                            Issues detected by security scan
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- SECURITY SCORE -->
+                <div class="card overview-card">
+
+                    <div class="card-icon">
+                        🛡
+                    </div>
+
+                    <div>
+                        <p>Security Score</p>
+
+                        <h2>
+                            {{ security_score }}%
+                        </h2>
+
+                        <span>
+                            Based on current security checks
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- CLOUDWATCH -->
+                <div class="card overview-card">
+
+                    <div class="card-icon">
+                        ◉
+                    </div>
+
+                    <div>
+                        <p>CloudWatch</p>
+
+                        <h2>
+                            Active
+                        </h2>
+
+                        <span>
+                            AWS monitoring connected
+                        </span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- DASHBOARD GRID -->
+            <section class="dashboard-grid">
+
+                <!-- INFRASTRUCTURE -->
+                <div class="card large-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h2>Infrastructure Overview</h2>
+                            <p>AWS resource distribution</p>
+                        </div>
+
+                        <span class="badge">
+                            AWS Connected
+                        </span>
+
+                    </div>
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ☁
+                        </div>
+
+                        <h3>
+                            AWS Infrastructure
+                        </h3>
+
+                        <p>
+                            View EC2 instances, S3 buckets,
+                            IAM users and CloudWatch metrics.
+                        </p>
+
+                        <a href="/aws/dashboard"
+                           class="primary-btn">
+                            View AWS Dashboard
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SECURITY STATUS -->
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h2>Security Status</h2>
+                            <p>Latest security assessment</p>
+                        </div>
+
+                    </div>
+
+                    <div class="security-status">
+
+                        <div class="security-circle">
+
+                            <span>
+                                {{ security_score }}%
+                            </span>
+
+                        </div>
+
+                        {% if security_issues > 0 %}
+
+                            <h3>
+                                Security issues detected
+                            </h3>
+
+                            <p>
+                                {{ security_issues }}
+                                security issue(s) require attention.
+                            </p>
+
+                        {% else %}
+
+                            <h3>
+                                Security checks passed
+                            </h3>
+
+                            <p>
+                                No critical security issues detected.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECURITY FINDINGS -->
+            <section class="card activity-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>Security Findings</h2>
+                        <p>
+                            Latest CloudOps Sentinel security scan
+                        </p>
+                    </div>
+
+                    <a href="/aws/security"
+                       class="primary-btn">
+                        Run Scanner
+                    </a>
+
+                </div>
+
+
+                {% if findings %}
+
+                    <div class="findings-table">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Resource</th>
+                                    <th>Check</th>
+                                    <th>Severity</th>
+                                    <th>Status</th>
+                                    <th>Message</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for finding in findings %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ finding.service }}
+                                        </td>
+
+                                        <td>
+                                            {{ finding.resource }}
+                                        </td>
+
+                                        <td>
+                                            {{ finding.check }}
+                                        </td>
+
+                                        <td>
+                                            {{ finding.severity }}
+                                        </td>
+
+                                        <td>
+                                            {{ finding.status }}
+                                        </td>
+
+                                        <td>
+                                            {{ finding.message }}
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="activity-empty">
+                        No security findings available.
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- RECENT ACTIVITY -->
+            <section class="card activity-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>Recent Activity</h2>
+                        <p>
+                            Latest CloudOps Sentinel events
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="activity-empty">
+
+                    Security scan completed successfully.
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer>
+
+                <p>
+                    CloudOps Sentinel &copy; 2026
+                </p>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
